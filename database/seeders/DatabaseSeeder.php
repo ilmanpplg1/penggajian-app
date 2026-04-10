@@ -13,11 +13,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name'  => 'Admin',
-            'email' => 'admin@example.com',
-            'role'  => 'admin',
-        ]);
+        // Buat admin hanya jika belum ada
+        \App\Models\User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name'     => 'Admin',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'role'     => 'admin',
+            ]
+        );
 
         $this->call(KategoriSeeder::class);
     }
